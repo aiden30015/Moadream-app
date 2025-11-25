@@ -89,7 +89,7 @@ class _UtilityBillCardState extends State<UtilityBillCard>
         _buildHeader(),
         const SizedBox(height: 24),
         SizedBox(height: 148, child: _buildChart()),
-        const SizedBox(height: 24),
+        Spacer(),
         _buildButtons(),
       ],
     );
@@ -194,7 +194,7 @@ class _UtilityBillCardState extends State<UtilityBillCard>
             ),
           ),
         ),
-        const SizedBox(height: 24),
+        Spacer(),
         _buildButtons(),
       ],
     );

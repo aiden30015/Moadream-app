@@ -129,13 +129,13 @@ class HomeScreen extends HookConsumerWidget {
             child: Center(child: CircularProgressIndicator()),
           ),
           error: (error, stack) {
-            // billComparison 실패 시 monthlyAverage 데이터만으로 표시
             print('⚠️ billComparison 에러 무시하고 계속 진행: $error');
 
             return LayoutBuilder(
               builder: (context, constraints) {
                 final cardWidth = constraints.maxWidth;
                 return SizedBox(
+                  width: double.infinity,
                   height: 280,
                   child: ListView(
                     scrollDirection: Axis.horizontal,
