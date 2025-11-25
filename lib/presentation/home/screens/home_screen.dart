@@ -68,22 +68,32 @@ class HomeScreen extends HookConsumerWidget {
     return SafeArea(
       child: SingleChildScrollView(
         controller: controller,
-        child: Padding(
-          padding: const EdgeInsets.all(32),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildUtilityCards(ref),
-              const SizedBox(height: 24),
-              _buildRecommendedMenu(),
-              const SizedBox(height: 24),
-              _buildBenefitBanner(),
-              const SizedBox(height: 24),
-              _buildMonthlyAnalysis(ref),
-              const SizedBox(height: 24),
-              _buildAiReport(ref),
-            ],
-          ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(32),
+              child: _buildUtilityCards(ref),
+            ),
+            const SizedBox(height: 24),
+            _buildRecommendedMenu(),
+            const SizedBox(height: 24),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: _buildBenefitBanner(),
+            ),
+            const SizedBox(height: 24),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: _buildMonthlyAnalysis(ref),
+            ),
+            const SizedBox(height: 24),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: _buildAiReport(ref),
+            ),
+            const SizedBox(height: 32),
+          ],
         ),
       ),
     );
@@ -302,10 +312,16 @@ class HomeScreen extends HookConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        FittedBox(
-          fit: BoxFit.scaleDown,
-          alignment: Alignment.centerLeft,
-          child: Text('자주 찾는 메뉴', style: MoaTypography.subTitle3(Colors.black)),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 32),
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: Text(
+              '자주 찾는 메뉴',
+              style: MoaTypography.subTitle3(Colors.black),
+            ),
+          ),
         ),
         const SizedBox(height: 16),
         _buildMenuRow(menuItems1),
@@ -318,6 +334,7 @@ class HomeScreen extends HookConsumerWidget {
   Widget _buildMenuRow(List<String> items) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
+      padding: const EdgeInsets.symmetric(horizontal: 32),
       child: Row(
         children: items
             .map(
