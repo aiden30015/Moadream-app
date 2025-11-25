@@ -83,7 +83,6 @@ class BillMonthScreen extends ConsumerWidget {
             return const Center(child: Text('청구서 데이터가 없습니다'));
           }
           return ListView.separated(
-            padding: const EdgeInsets.all(16),
             itemBuilder: (context, index) {
               final bill = bills[index];
               final totalUsage = bill.totalUsage ?? 0.0;
