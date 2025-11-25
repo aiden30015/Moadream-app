@@ -77,7 +77,7 @@ class ProfileScreen extends HookConsumerWidget {
             const SizedBox(height: 11),
             InkWell(
               onTap: () {
-                // 자동 납부 카드 등록 화면으로 이동
+                context.go('/setting/edit_my_page');
               },
               child: _buildSetting(
                 icon: MoaIcon.wallet(),
