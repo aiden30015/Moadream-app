@@ -9,6 +9,7 @@ import 'package:hanjeon/presentation/home/widget/utility_bill_card.dart';
 import 'package:hanjeon/presentation/home/widget/month_analysis_charge_card.dart';
 import 'package:hanjeon/presentation/home/widget/multi_line_chart_painter.dart';
 import 'package:hanjeon/presentation/user/controllers/user_controller.dart';
+import 'package:hanjeon/presentation/profile/controllers/address_controller.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class HomeScreen extends HookConsumerWidget {
@@ -104,6 +105,46 @@ class HomeScreen extends HookConsumerWidget {
     final userDataAsync = ref.watch(userDataProvider);
     final billComparisonAsync = ref.watch(billComparisonProvider);
 
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Text('집', style: MoaTypography.subTitle4(Colors.white)),
+                const SizedBox(width: 8),
+                MoaIcon.down_arrow(color: Colors.white),
+              ],
+            ),
+            Consumer(
+              builder: (context, ref, child) {
+                final budget = ref.watch(budgetProvider);
+                return Text(
+                  '총 예산: ${budget.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}원',
+                  style: MoaTypography.body1(Colors.white),
+                );
+              },
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        _buildUtilityCardsContent(
+          ref,
+          monthlyAverageAsync,
+          userDataAsync,
+          billComparisonAsync,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildUtilityCardsContent(
+    WidgetRef ref,
+    AsyncValue monthlyAverageAsync,
+    AsyncValue userDataAsync,
+    AsyncValue billComparisonAsync,
+  ) {
     return monthlyAverageAsync.when(
       loading: () => const Center(child: Text('로딩중...')),
       error: (error, stack) => Center(child: Text('데이터를 불러올 수 없습니다: $error')),
@@ -131,174 +172,138 @@ class HomeScreen extends HookConsumerWidget {
           error: (error, stack) {
             print('⚠️ billComparison 에러 무시하고 계속 진행: $error');
 
-            return LayoutBuilder(
-              builder: (context, constraints) {
-                final cardWidth = constraints.maxWidth;
-                return SizedBox(
-                  width: double.infinity,
-                  height: 280,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    physics: const BouncingScrollPhysics(),
-                    children: [
-                      SizedBox(
-                        width: cardWidth,
-                        height: 280,
-                        child: UtilityBillCard(
-                          data: ChartData(
-                            values: electricityHistory
-                                .map((e) => e.averageCharge)
-                                .toList(),
-                            labels: electricityHistory
-                                .map((e) => '${e.month}월')
-                                .toList(),
-                          ),
-                          userName: userDataAsync.maybeWhen(
-                            data: (user) => user.name,
-                            orElse: () => '사용자',
-                          ),
-                          currentMonth: '${electricityHistory.last.month}월',
-                          currentAmount: electricityHistory.last.averageCharge,
-                          icon: MoaIcon.electric(),
-                          currentUsage: electricityHistory.last.averageUsage,
-                          title: '전기요금',
-                          percentChange: '데이터 없음',
-                          buttonColor: MoaColor.yellow200,
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                      SizedBox(
-                        width: cardWidth,
-                        height: 280,
-                        child: UtilityBillCard(
-                          data: ChartData(
-                            values: waterHistory
-                                .map((e) => e.averageCharge)
-                                .toList(),
-                            labels: waterHistory
-                                .map((e) => '${e.month}월')
-                                .toList(),
-                          ),
-                          userName: userDataAsync.maybeWhen(
-                            data: (user) => user.name,
-                            orElse: () => '사용자',
-                          ),
-                          currentMonth: '${waterHistory.last.month}월',
-                          currentAmount: waterHistory.last.averageCharge,
-                          icon: MoaIcon.electric(),
-                          currentUsage: waterHistory.last.averageUsage,
-                          title: '수도요금',
-                          percentChange: '데이터 없음',
-                          buttonColor: MoaColor.blue500,
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                      SizedBox(
-                        width: cardWidth,
-                        height: 280,
-                        child: UtilityBillCard(
-                          data: ChartData(
-                            values: gasHistory
-                                .map((e) => e.averageCharge)
-                                .toList(),
-                            labels: gasHistory
-                                .map((e) => '${e.month}월')
-                                .toList(),
-                          ),
-                          userName: userDataAsync.maybeWhen(
-                            data: (user) => user.name,
-                            orElse: () => '사용자',
-                          ),
-                          currentMonth: '${gasHistory.last.month}월',
-                          currentAmount: gasHistory.last.averageCharge,
-                          icon: MoaIcon.electric(),
-                          currentUsage: gasHistory.last.averageUsage,
-                          title: '가스요금',
-                          percentChange: '데이터 없음',
-                          buttonColor: MoaColor.green,
-                        ),
-                      ),
-                    ],
+            return SizedBox(
+              width: double.infinity,
+              height: 336,
+              child: PageView(
+                controller: PageController(viewportFraction: 1.0),
+                children: [
+                  UtilityBillCard(
+                    data: ChartData(
+                      values: electricityHistory
+                          .map((e) => e.averageCharge)
+                          .toList(),
+                      labels: electricityHistory
+                          .map((e) => '${e.month}월')
+                          .toList(),
+                    ),
+                    userName: userDataAsync.maybeWhen(
+                      data: (user) => user.name,
+                      orElse: () => '사용자',
+                    ),
+                    currentMonth: '${electricityHistory.last.month}월',
+                    currentAmount: electricityHistory.last.averageCharge,
+                    icon: MoaIcon.electric(),
+                    currentUsage: electricityHistory.last.averageUsage,
+                    title: '전기요금',
+                    percentChange: '데이터 없음',
+                    buttonColor: MoaColor.yellow200,
                   ),
-                );
-              },
+                  UtilityBillCard(
+                    data: ChartData(
+                      values: waterHistory.map((e) => e.averageCharge).toList(),
+                      labels: waterHistory.map((e) => '${e.month}월').toList(),
+                    ),
+                    userName: userDataAsync.maybeWhen(
+                      data: (user) => user.name,
+                      orElse: () => '사용자',
+                    ),
+                    currentMonth: '${waterHistory.last.month}월',
+                    currentAmount: waterHistory.last.averageCharge,
+                    icon: MoaIcon.water(),
+                    currentUsage: waterHistory.last.averageUsage,
+                    title: '수도요금',
+                    percentChange: '데이터 없음',
+                    buttonColor: MoaColor.blue500,
+                  ),
+                  UtilityBillCard(
+                    data: ChartData(
+                      values: gasHistory.map((e) => e.averageCharge).toList(),
+                      labels: gasHistory.map((e) => '${e.month}월').toList(),
+                    ),
+                    userName: userDataAsync.maybeWhen(
+                      data: (user) => user.name,
+                      orElse: () => '사용자',
+                    ),
+                    currentMonth: '${gasHistory.last.month}월',
+                    currentAmount: gasHistory.last.averageCharge,
+                    icon: MoaIcon.cloud(),
+                    currentUsage: gasHistory.last.averageUsage,
+                    title: '가스요금',
+                    percentChange: '데이터 없음',
+                    buttonColor: MoaColor.green,
+                  ),
+                ],
+              ),
             );
           },
-          data: (billData) => LayoutBuilder(
-            builder: (context, constraints) {
-              final cardWidth = constraints.maxWidth;
-
-              return SizedBox(
-                height: 336,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    SizedBox(
-                      width: cardWidth,
-                      child: UtilityBillCard(
-                        data: ChartData(
-                          values: [96010.0, 110530.0, 74460.0],
-                          labels: ['8월', '9월', '10월'],
-                        ),
-                        userName: userDataAsync.maybeWhen(
-                          data: (user) => user.name,
-                          orElse: () => '사용자',
-                        ),
-                        currentMonth: '11월',
-                        currentAmount: 45000.0,
-                        icon: MoaIcon.electric(),
-                        currentUsage: 219.0,
-                        title: '전기요금',
-                        percentChange: '39.6%',
-                        buttonColor: MoaColor.yellow200,
-                      ),
+          data: (billData) => SizedBox(
+            height: 336,
+            child: PageView(
+              controller: PageController(viewportFraction: 1.0),
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 16),
+                  child: UtilityBillCard(
+                    data: ChartData(
+                      values: [96010.0, 110530.0, 74460.0],
+                      labels: ['8월', '9월', '10월'],
                     ),
-                    const SizedBox(width: 16),
-                    SizedBox(
-                      width: cardWidth,
-                      child: UtilityBillCard(
-                        data: ChartData(
-                          values: [8342.0, 7893.0, 8950.0],
-                          labels: ['8월', '9월', '10월'],
-                        ),
-                        userName: userDataAsync.maybeWhen(
-                          data: (user) => user.name,
-                          orElse: () => '사용자',
-                        ),
-                        currentMonth: '11월',
-                        currentAmount: 5400.0,
-                        icon: MoaIcon.water(),
-                        currentUsage: 12.5,
-                        title: '수도요금',
-                        percentChange: '39.7%',
-                        buttonColor: MoaColor.blue500,
-                      ),
+                    userName: userDataAsync.maybeWhen(
+                      data: (user) => user.name,
+                      orElse: () => '사용자',
                     ),
-                    const SizedBox(width: 16),
-                    SizedBox(
-                      width: cardWidth,
-                      child: UtilityBillCard(
-                        data: ChartData(
-                          values: [54673.0, 53490.0, 64845.0],
-                          labels: ['8월', '9월', '10월'],
-                        ),
-                        userName: userDataAsync.maybeWhen(
-                          data: (user) => user.name,
-                          orElse: () => '사용자',
-                        ),
-                        currentMonth: '11월',
-                        currentAmount: 38900.0,
-                        icon: MoaIcon.cloud(),
-                        currentUsage: 45.8,
-                        title: '가스요금',
-                        percentChange: '40.0%',
-                        buttonColor: MoaColor.green,
-                      ),
-                    ),
-                  ],
+                    currentMonth: '11월',
+                    currentAmount: 45000.0,
+                    icon: MoaIcon.electric(),
+                    currentUsage: 219.0,
+                    title: '전기요금',
+                    percentChange: '39.6%',
+                    buttonColor: MoaColor.yellow200,
+                  ),
                 ),
-              );
-            },
+                Padding(
+                  padding: const EdgeInsets.only(right: 16),
+                  child: UtilityBillCard(
+                    data: ChartData(
+                      values: [8342.0, 7893.0, 8950.0],
+                      labels: ['8월', '9월', '10월'],
+                    ),
+                    userName: userDataAsync.maybeWhen(
+                      data: (user) => user.name,
+                      orElse: () => '사용자',
+                    ),
+                    currentMonth: '11월',
+                    currentAmount: 5400.0,
+                    icon: MoaIcon.water(),
+                    currentUsage: 12.5,
+                    title: '수도요금',
+                    percentChange: '39.7%',
+                    buttonColor: MoaColor.blue500,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 16),
+                  child: UtilityBillCard(
+                    data: ChartData(
+                      values: [54673.0, 53490.0, 64845.0],
+                      labels: ['8월', '9월', '10월'],
+                    ),
+                    userName: userDataAsync.maybeWhen(
+                      data: (user) => user.name,
+                      orElse: () => '사용자',
+                    ),
+                    currentMonth: '11월',
+                    currentAmount: 38900.0,
+                    icon: MoaIcon.cloud(),
+                    currentUsage: 45.8,
+                    title: '가스요금',
+                    percentChange: '40.0%',
+                    buttonColor: MoaColor.green,
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },

@@ -186,8 +186,6 @@ class EditMyPageScreen extends HookConsumerWidget {
                   Text(
                     '$address \n$detailAddress',
                     style: MoaTypography.body2(MoaColor.gray500),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
                   ),
                 ],
               ),
