@@ -104,18 +104,102 @@ class HomeScreen extends HookConsumerWidget {
     final monthlyAverageAsync = ref.watch(monthlyAverageProvider);
     final userDataAsync = ref.watch(userDataProvider);
     final billComparisonAsync = ref.watch(billComparisonProvider);
+    final addressList = ref.watch(addressListProvider);
+    final selectedAddressIndex = useState(0);
 
     return Column(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              children: [
-                Text('집', style: MoaTypography.subTitle4(Colors.white)),
-                const SizedBox(width: 8),
-                MoaIcon.down_arrow(color: Colors.white),
-              ],
+            GestureDetector(
+              onTap: () {
+                showModalBottomSheet(
+                  context: ref.context,
+                  backgroundColor: Colors.white,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(16),
+                    ),
+                  ),
+                  builder: (context) {
+                    return SafeArea(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const SizedBox(height: 16),
+                          Container(
+                            width: 40,
+                            height: 4,
+                            decoration: BoxDecoration(
+                              color: MoaColor.gray300,
+                              borderRadius: BorderRadius.circular(2),
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            '주소 선택',
+                            style: MoaTypography.subTitle3(Colors.black),
+                          ),
+                          const SizedBox(height: 16),
+                          ...List.generate(
+                            addressList.length,
+                            (index) => InkWell(
+                              onTap: () {
+                                selectedAddressIndex.value = index;
+                                Navigator.pop(context);
+                              },
+                              child: Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 24,
+                                  vertical: 16,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: selectedAddressIndex.value == index
+                                      ? MoaColor.blue200.withOpacity(0.3)
+                                      : Colors.white,
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      addressList[index]['name']!,
+                                      style: MoaTypography.subTitle4(
+                                        selectedAddressIndex.value == index
+                                            ? MoaColor.blue500
+                                            : MoaColor.gray800,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      addressList[index]['address']!,
+                                      style: MoaTypography.body2(
+                                        MoaColor.gray600,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
+              child: Row(
+                children: [
+                  Text(
+                    addressList[selectedAddressIndex.value]['name']!,
+                    style: MoaTypography.subTitle4(Colors.white),
+                  ),
+                  const SizedBox(width: 8),
+                  MoaIcon.down_arrow(color: Colors.white),
+                ],
+              ),
             ),
             Consumer(
               builder: (context, ref, child) {
