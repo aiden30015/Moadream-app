@@ -27,6 +27,10 @@ abstract class UsageApiClient {
   @GET('/settings/users/{userId}')
   Future<SettingsResponse> getSettings(@Path('userId') int userId);
 
-  @GET('/bills/users/{userId}')
-  Future<BillResponse> getBills(@Path('userId') int userId);
+  @GET('/bills/users/{userId}/month')
+  Future<BillResponse> getBills(
+    @Path('userId') int userId,
+    @Query('utilityType') String utilityType,
+    @Query('billingMonth') String billingMonth,
+  );
 }

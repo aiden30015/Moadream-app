@@ -305,7 +305,7 @@ as bool,
 /// @nodoc
 mixin _$BillResponse {
 
- bool get success; List<Bill> get data; String? get message;
+ bool get success; Bill get data; String? get message;
 /// Create a copy of BillResponse
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -318,12 +318,12 @@ $BillResponseCopyWith<BillResponse> get copyWith => _$BillResponseCopyWithImpl<B
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is BillResponse&&(identical(other.success, success) || other.success == success)&&const DeepCollectionEquality().equals(other.data, data)&&(identical(other.message, message) || other.message == message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is BillResponse&&(identical(other.success, success) || other.success == success)&&(identical(other.data, data) || other.data == data)&&(identical(other.message, message) || other.message == message));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,success,const DeepCollectionEquality().hash(data),message);
+int get hashCode => Object.hash(runtimeType,success,data,message);
 
 @override
 String toString() {
@@ -338,11 +338,11 @@ abstract mixin class $BillResponseCopyWith<$Res>  {
   factory $BillResponseCopyWith(BillResponse value, $Res Function(BillResponse) _then) = _$BillResponseCopyWithImpl;
 @useResult
 $Res call({
- bool success, List<Bill> data, String? message
+ bool success, Bill data, String? message
 });
 
 
-
+$BillCopyWith<$Res> get data;
 
 }
 /// @nodoc
@@ -359,11 +359,20 @@ class _$BillResponseCopyWithImpl<$Res>
   return _then(_self.copyWith(
 success: null == success ? _self.success : success // ignore: cast_nullable_to_non_nullable
 as bool,data: null == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
-as List<Bill>,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as Bill,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
-
+/// Create a copy of BillResponse
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$BillCopyWith<$Res> get data {
+  
+  return $BillCopyWith<$Res>(_self.data, (value) {
+    return _then(_self.copyWith(data: value));
+  });
+}
 }
 
 
@@ -445,7 +454,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool success,  List<Bill> data,  String? message)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool success,  Bill data,  String? message)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _BillResponse() when $default != null:
 return $default(_that.success,_that.data,_that.message);case _:
@@ -466,7 +475,7 @@ return $default(_that.success,_that.data,_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool success,  List<Bill> data,  String? message)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool success,  Bill data,  String? message)  $default,) {final _that = this;
 switch (_that) {
 case _BillResponse():
 return $default(_that.success,_that.data,_that.message);case _:
@@ -486,7 +495,7 @@ return $default(_that.success,_that.data,_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool success,  List<Bill> data,  String? message)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool success,  Bill data,  String? message)?  $default,) {final _that = this;
 switch (_that) {
 case _BillResponse() when $default != null:
 return $default(_that.success,_that.data,_that.message);case _:
@@ -501,17 +510,11 @@ return $default(_that.success,_that.data,_that.message);case _:
 @JsonSerializable()
 
 class _BillResponse implements BillResponse {
-  const _BillResponse({required this.success, required final  List<Bill> data, this.message}): _data = data;
+  const _BillResponse({required this.success, required this.data, this.message});
   factory _BillResponse.fromJson(Map<String, dynamic> json) => _$BillResponseFromJson(json);
 
 @override final  bool success;
- final  List<Bill> _data;
-@override List<Bill> get data {
-  if (_data is EqualUnmodifiableListView) return _data;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_data);
-}
-
+@override final  Bill data;
 @override final  String? message;
 
 /// Create a copy of BillResponse
@@ -527,12 +530,12 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BillResponse&&(identical(other.success, success) || other.success == success)&&const DeepCollectionEquality().equals(other._data, _data)&&(identical(other.message, message) || other.message == message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BillResponse&&(identical(other.success, success) || other.success == success)&&(identical(other.data, data) || other.data == data)&&(identical(other.message, message) || other.message == message));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,success,const DeepCollectionEquality().hash(_data),message);
+int get hashCode => Object.hash(runtimeType,success,data,message);
 
 @override
 String toString() {
@@ -547,11 +550,11 @@ abstract mixin class _$BillResponseCopyWith<$Res> implements $BillResponseCopyWi
   factory _$BillResponseCopyWith(_BillResponse value, $Res Function(_BillResponse) _then) = __$BillResponseCopyWithImpl;
 @override @useResult
 $Res call({
- bool success, List<Bill> data, String? message
+ bool success, Bill data, String? message
 });
 
 
-
+@override $BillCopyWith<$Res> get data;
 
 }
 /// @nodoc
@@ -567,13 +570,22 @@ class __$BillResponseCopyWithImpl<$Res>
 @override @pragma('vm:prefer-inline') $Res call({Object? success = null,Object? data = null,Object? message = freezed,}) {
   return _then(_BillResponse(
 success: null == success ? _self.success : success // ignore: cast_nullable_to_non_nullable
-as bool,data: null == data ? _self._data : data // ignore: cast_nullable_to_non_nullable
-as List<Bill>,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as bool,data: null == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
+as Bill,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
 
-
+/// Create a copy of BillResponse
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$BillCopyWith<$Res> get data {
+  
+  return $BillCopyWith<$Res>(_self.data, (value) {
+    return _then(_self.copyWith(data: value));
+  });
+}
 }
 
 // dart format on

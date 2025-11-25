@@ -4,6 +4,7 @@ import 'package:hanjeon/core/design_system/color.dart';
 import 'package:hanjeon/core/design_system/icon.dart';
 import 'package:hanjeon/core/design_system/typography.dart';
 import 'package:hanjeon/presentation/home/screens/home_screen.dart';
+import 'package:hanjeon/presentation/menu/menu_screen.dart';
 import 'package:hanjeon/presentation/profile/screens/profile_screen.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -15,7 +16,7 @@ class MainScreen extends HookConsumerWidget {
     final currentIndex = useState(1);
 
     final screens = [
-      const Center(child: Text('이력')),
+      const MenuScreen(),
       const HomeScreen(),
       const ProfileScreen(),
     ];

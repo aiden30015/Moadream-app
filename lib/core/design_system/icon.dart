@@ -512,4 +512,22 @@ class MoaIcon {
       semanticsLabel: semanticsLabel,
     );
   }
+
+  static Widget service({
+    double? width,
+    double? height,
+    Color? color,
+    BoxFit fit = BoxFit.contain,
+    String? semanticsLabel,
+  }) {
+    return fromAsset(
+      'assets/images/service.svg',
+      width: width,
+      height: height,
+      fit: fit,
+      alignment: Alignment.center,
+      color: color,
+      semanticsLabel: semanticsLabel,
+    );
+  }
 }

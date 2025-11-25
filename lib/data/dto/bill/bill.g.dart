@@ -35,9 +35,7 @@ Map<String, dynamic> _$BillToJson(_Bill instance) => <String, dynamic>{
 _BillResponse _$BillResponseFromJson(Map<String, dynamic> json) =>
     _BillResponse(
       success: json['success'] as bool,
-      data: (json['data'] as List<dynamic>)
-          .map((e) => Bill.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      data: Bill.fromJson(json['data'] as Map<String, dynamic>),
       message: json['message'] as String?,
     );
 

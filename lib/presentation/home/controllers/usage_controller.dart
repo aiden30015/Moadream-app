@@ -113,10 +113,19 @@ final billsProvider = FutureProvider<List<Bill>>((ref) async {
   final userId = int.parse(userIdStr);
   final apiClient = ref.watch(usageApiClientProvider);
 
+  final now = DateTime.now();
+  final billingMonth = '${now.year}-${now.month.toString().padLeft(2, '0')}-01';
+  final utilityTypes = ['ELECTRICITY', 'WATER', 'GAS'];
+
   try {
-    final response = await apiClient.getBills(userId);
-    print('✅ bills 성공: ${response.data}');
-    return response.data;
+    final results = await Future.wait(
+      utilityTypes.map(
+        (type) => apiClient.getBills(userId, type, billingMonth),
+      ),
+    );
+    final bills = results.map((r) => r.data).toList();
+    print('✅ bills 성공: $bills');
+    return bills;
   } catch (e) {
     print('❌ bills 에러: $e');
     rethrow;

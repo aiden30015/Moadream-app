@@ -131,16 +131,23 @@ class _UsageApiClient implements UsageApiClient {
   }
 
   @override
-  Future<BillResponse> getBills(int userId) async {
+  Future<BillResponse> getBills(
+    int userId,
+    String utilityType,
+    String billingMonth,
+  ) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'utilityType': utilityType,
+      r'billingMonth': billingMonth,
+    };
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<BillResponse>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/bills/users/${userId}',
+            '/bills/users/${userId}/month',
             queryParameters: queryParameters,
             data: _data,
           )

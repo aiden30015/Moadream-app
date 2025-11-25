@@ -25,7 +25,7 @@ abstract class Bill with _$Bill {
 abstract class BillResponse with _$BillResponse {
   const factory BillResponse({
     required bool success,
-    required List<Bill> data,
+    required Bill data,
     String? message,
   }) = _BillResponse;
 

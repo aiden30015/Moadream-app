@@ -118,80 +118,79 @@ class _UtilityBillCardState extends State<UtilityBillCard>
           ],
         ),
         const SizedBox(height: 24),
-        SizedBox(
-          height: 148,
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    SizedBox(
-                      width: 240,
-                      height: 120,
-                      child: CustomPaint(
-                        painter: SemiCircleGaugePainter(
-                          previousValue: widget.data.values.length >= 2
-                              ? (previousValue / gaugeMaxValue).clamp(0.0, 1.0)
-                              : 0.0,
-                          currentValue: (currentValue / gaugeMaxValue).clamp(
-                            0.0,
-                            1.0,
-                          ),
-                          color: widget.buttonColor,
-                        ),
-                      ),
+        Center(
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              SizedBox(
+                width: 240,
+                height: 120,
+                child: CustomPaint(
+                  painter: SemiCircleGaugePainter(
+                    previousValue: widget.data.values.length >= 2
+                        ? (previousValue / gaugeMaxValue).clamp(0.0, 1.0)
+                        : 0.0,
+                    currentValue: (currentValue / gaugeMaxValue).clamp(
+                      0.0,
+                      1.0,
                     ),
-                    Positioned(
-                      bottom: 0,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Container(
-                                width: 12,
-                                height: 12,
-                                decoration: BoxDecoration(
-                                  color: widget.buttonColor.withOpacity(0.25),
-                                  shape: BoxShape.circle,
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              Text(
-                                '전달 사용량',
-                                style: MoaTypography.caption(MoaColor.gray300),
-                              ),
-                            ],
+                    color: widget.buttonColor,
+                  ),
+                ),
+              ),
+              Positioned(
+                bottom: 0,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          width: 12,
+                          height: 12,
+                          decoration: BoxDecoration(
+                            color: widget.buttonColor.withOpacity(0.25),
+                            shape: BoxShape.circle,
                           ),
-                          const SizedBox(height: 8),
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Container(
-                                width: 12,
-                                height: 12,
-                                decoration: BoxDecoration(
-                                  color: widget.buttonColor,
-                                  shape: BoxShape.circle,
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              Text(
-                                '이번달 사용량',
-                                style: MoaTypography.caption(MoaColor.gray300),
-                              ),
-                            ],
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          '전달 사용량',
+                          style: MoaTypography.caption(MoaColor.gray300),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          width: 12,
+                          height: 12,
+                          decoration: BoxDecoration(
+                            color: widget.buttonColor,
+                            shape: BoxShape.circle,
                           ),
-                        ],
-                      ),
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          '이번달 사용량',
+                          style: MoaTypography.caption(MoaColor.gray300),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
-            ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 20),
+        Center(
+          child: Text(
+            '이번달 사용 금액: ${_formatNumber(currentValue.toInt())}',
+            style: MoaTypography.body2(MoaColor.gray700),
           ),
         ),
         Spacer(),

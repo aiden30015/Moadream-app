@@ -332,65 +332,56 @@ class HomeScreen extends HookConsumerWidget {
             child: PageView(
               controller: PageController(viewportFraction: 1.0),
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 16),
-                  child: UtilityBillCard(
-                    data: ChartData(
-                      values: [96010.0, 110530.0, 74460.0],
-                      labels: ['8월', '9월', '10월'],
-                    ),
-                    userName: userDataAsync.maybeWhen(
-                      data: (user) => user.name,
-                      orElse: () => '사용자',
-                    ),
-                    currentMonth: '11월',
-                    currentAmount: 45000.0,
-                    icon: MoaIcon.electric(),
-                    currentUsage: 219.0,
-                    title: '전기요금',
-                    percentChange: '39.6%',
-                    buttonColor: MoaColor.yellow200,
+                UtilityBillCard(
+                  data: ChartData(
+                    values: [96010.0, 110530.0, 74460.0],
+                    labels: ['8월', '9월', '10월'],
                   ),
+                  userName: userDataAsync.maybeWhen(
+                    data: (user) => user.name,
+                    orElse: () => '사용자',
+                  ),
+                  currentMonth: '10월',
+                  currentAmount: 74460.0, // 10월 값
+                  icon: MoaIcon.electric(),
+                  currentUsage: 219.0, // 10월 사용량 (예시)
+                  title: '전기요금',
+                  percentChange: '39.6%',
+                  buttonColor: MoaColor.yellow200,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 16),
-                  child: UtilityBillCard(
-                    data: ChartData(
-                      values: [8342.0, 7893.0, 8950.0],
-                      labels: ['8월', '9월', '10월'],
-                    ),
-                    userName: userDataAsync.maybeWhen(
-                      data: (user) => user.name,
-                      orElse: () => '사용자',
-                    ),
-                    currentMonth: '11월',
-                    currentAmount: 5400.0,
-                    icon: MoaIcon.water(),
-                    currentUsage: 12.5,
-                    title: '수도요금',
-                    percentChange: '39.7%',
-                    buttonColor: MoaColor.blue500,
+                UtilityBillCard(
+                  data: ChartData(
+                    values: [8342.0, 7893.0, 8950.0],
+                    labels: ['8월', '9월', '10월'],
                   ),
+                  userName: userDataAsync.maybeWhen(
+                    data: (user) => user.name,
+                    orElse: () => '사용자',
+                  ),
+                  currentMonth: '10월',
+                  currentAmount: 8950.0, // 10월 값
+                  icon: MoaIcon.water(),
+                  currentUsage: 12.5, // 10월 사용량 (예시)
+                  title: '수도요금',
+                  percentChange: '39.7%',
+                  buttonColor: MoaColor.blue500,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 16),
-                  child: UtilityBillCard(
-                    data: ChartData(
-                      values: [54673.0, 53490.0, 64845.0],
-                      labels: ['8월', '9월', '10월'],
-                    ),
-                    userName: userDataAsync.maybeWhen(
-                      data: (user) => user.name,
-                      orElse: () => '사용자',
-                    ),
-                    currentMonth: '11월',
-                    currentAmount: 38900.0,
-                    icon: MoaIcon.cloud(),
-                    currentUsage: 45.8,
-                    title: '가스요금',
-                    percentChange: '40.0%',
-                    buttonColor: MoaColor.green,
+                UtilityBillCard(
+                  data: ChartData(
+                    values: [54673.0, 53490.0, 64845.0],
+                    labels: ['8월', '9월', '10월'],
                   ),
+                  userName: userDataAsync.maybeWhen(
+                    data: (user) => user.name,
+                    orElse: () => '사용자',
+                  ),
+                  currentMonth: '10월',
+                  currentAmount: 64845.0, // 10월 값
+                  icon: MoaIcon.cloud(),
+                  currentUsage: 45.8, // 10월 사용량 (예시)
+                  title: '가스요금',
+                  percentChange: '40.0%',
+                  buttonColor: MoaColor.green,
                 ),
               ],
             ),
