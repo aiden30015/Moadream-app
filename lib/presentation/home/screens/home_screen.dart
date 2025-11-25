@@ -128,12 +128,18 @@ class HomeScreen extends HookConsumerWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           const SizedBox(height: 16),
-                          Container(
-                            width: 40,
-                            height: 4,
-                            decoration: BoxDecoration(
-                              color: MoaColor.gray300,
-                              borderRadius: BorderRadius.circular(2),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 24),
+                              child: Container(
+                                width: 40,
+                                height: 4,
+                                decoration: BoxDecoration(
+                                  color: MoaColor.gray300,
+                                  borderRadius: BorderRadius.circular(2),
+                                ),
+                              ),
                             ),
                           ),
                           const SizedBox(height: 16),
@@ -627,7 +633,7 @@ class HomeScreen extends HookConsumerWidget {
                   Expanded(
                     child: MonthAnalysisChargeCard(
                       title: '이번달에 낼 금액',
-                      amount: '148,255원',
+                      amount: '148,435원',
                       icon: MoaIcon.down_arrow(),
                     ),
                   ),
@@ -643,57 +649,71 @@ class HomeScreen extends HookConsumerWidget {
   Widget _buildAiReport(WidgetRef ref) {
     final recommendationAsync = ref.watch(recommendationProvider);
 
-    return recommendationAsync.when(
-      loading: () => HomeContainer(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            MoaIcon.chat_outline(),
-            const SizedBox(width: 7),
-            const Expanded(child: CircularProgressIndicator()),
-          ],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        FittedBox(
+          fit: BoxFit.scaleDown,
+          alignment: Alignment.centerLeft,
+          child: Text(
+            '이달의 ai 리포트',
+            style: MoaTypography.subTitle3(Colors.black),
+          ),
         ),
-      ),
-      error: (error, stack) => HomeContainer(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            MoaIcon.chat_outline(),
-            const SizedBox(width: 7),
-            Expanded(
-              child: Text(
-                '날씨가 추워지는 요즘 보일러를 트는 가구들이 많아졌어요! 외출 시 보일러를 외출로 바꿔준다면 가스비 절감에 큰 도움이 된답니다 :)',
-                style: TextStyle(
-                  fontFamily: 'SUIT',
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14,
-                ),
-                softWrap: true,
-              ),
+        const SizedBox(height: 16),
+        recommendationAsync.when(
+          loading: () => HomeContainer(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                MoaIcon.chat_outline(),
+                const SizedBox(width: 7),
+                const Expanded(child: CircularProgressIndicator()),
+              ],
             ),
-          ],
-        ),
-      ),
-      data: (recommendationText) => HomeContainer(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            MoaIcon.chat_outline(),
-            const SizedBox(width: 7),
-            Expanded(
-              child: Text(
-                recommendationText,
-                style: TextStyle(
-                  fontFamily: 'SUIT',
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14,
+          ),
+          error: (error, stack) => HomeContainer(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                MoaIcon.chat_outline(),
+                const SizedBox(width: 7),
+                Expanded(
+                  child: Text(
+                    '날씨가 추워지는 요즘 보일러를 트는 가구들이 많아졌어요! 외출 시 보일러를 외출로 바꿔준다면 가스비 절감에 큰 도움이 된답니다 :)',
+                    style: TextStyle(
+                      fontFamily: 'SUIT',
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14,
+                    ),
+                    softWrap: true,
+                  ),
                 ),
-                softWrap: true,
-              ),
+              ],
             ),
-          ],
+          ),
+          data: (recommendationText) => HomeContainer(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                MoaIcon.chat_outline(),
+                const SizedBox(width: 7),
+                Expanded(
+                  child: Text(
+                    recommendationText,
+                    style: TextStyle(
+                      fontFamily: 'SUIT',
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14,
+                    ),
+                    softWrap: true,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
-      ),
+      ],
     );
   }
 }
